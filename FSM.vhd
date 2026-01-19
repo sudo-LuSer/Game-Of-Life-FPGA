@@ -51,7 +51,7 @@ end FSM;
 
 architecture Behavioral of FSM is
 
-type state is (LFSR_INIT, COPY, COMPTE, COUNT_NEIGHBOUR, VERIF_CELLULE, AFFICHAGE, WAIT_VGA, EDIT_GAME); 
+type state is (LFSR_INIT, COPY, COMPTE, COUNT_NEIGHBOUR, VERIF_CELLULE, AFFICHAGE, WAIT_VGA, EDIT_GAME, WAIT_RW); 
 signal etat_p , etat_f : state; 
 signal debug : std_logic_vector(5 downto 0);
 
@@ -86,8 +86,12 @@ begin
         when COUNT_NEIGHBOUR => 
             debug <= "001000";
             if(FInREG = '1') then 
-                etat_f <= VERIF_CELLULE; 
+                etat_f <= WAIT_RW; 
             end if;
+                
+        when WAIT_RW =>
+                debug <= "001000"; 
+                etat_f <= VERIF_CELLULE;
             
         when VERIF_CELLULE => 
             debug <= "010000";
@@ -170,6 +174,9 @@ begin
             address_copy <= std_logic_vector(to_unsigned((to_integer(unsigned(y_neighbor)) * 320) + to_integer(unsigned(x_neighbor)), 17));
             address_copy_x <= x_neighbor;
             address_copy_y <= y_neighbor;
+        
+        when WAIT_RW =>
+            RW <= '1'; 
         
         when VERIF_CELLULE => 
             CE_VERIF_CELLULE <= '1'; 
