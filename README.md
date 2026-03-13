@@ -55,21 +55,49 @@ This system implements Conway’s Game of Life on an FPGA with:
 ## 📁 Project Structure
 
 ```text
-├── affichage_vga.vhd           # Top-level entity
-├── VGA_bitmap_320x240.vhd      # VGA controller
-├── address_counter.vhd         # VGA address generator
-├── LFSR.vhd                    # Random generator
-├── lfsr_init.vhd               # LFSR initialization controller
-├── compteur_Seed.vhd           # Seed counter
-├── Ram.vhd                     # Dual-port RAM (current state)
-├── Ram_copy.vhd                # Next-generation buffer
-├── neighbor_count.vhd          # Live neighbor counter
-├── verif_cellule.vhd           # Game of Life rules
-├── compteur_game.vhd           # Grid traversal counter
-├── conversion_bit_pixel.vhd    # Cell-to-color mapping
-├── Gest_Freq.vhd               # Update rate controller
-├── Copy.vhd                    # Memory copy controller
-├── FSM.vhd                     # Main finite state machine
-├── game_edit.vhd               # Interactive editing logic
-├── Reg_Button.vhd              # Button debouncing
-└── tb_top_level.vhd            # Testbench
+.
+├── README.md
+├── .github/
+│   └── dependabot.yml
+│
+├── docs/                     # Documentation
+│   └── architecture.md
+│
+├── src/                      # All synthesizable VHDL
+│   ├── top/
+│   │   └── affichage_vga.vhd
+│   │
+│   ├── vga/
+│   │   ├── VGA_bitmap_320x240.vhd
+│   │   └── conversion_bit_pixel.vhd
+│   │
+│   ├── memory/
+│   │   ├── Ram.vhd
+│   │   └── Ram_copy.vhd
+│   │
+│   ├── game_of_life/
+│   │   ├── neighbor_count.vhd
+│   │   ├── verif_cellule.vhd
+│   │   ├── compteur_game.vhd
+│   │   └── Copy.vhd
+│   │
+│   ├── random/
+│   │   ├── LFSR.vhd
+│   │   ├── lfsr_init.vhd
+│   │   └── compteur_Seed.vhd
+│   │
+│   ├── control/
+│   │   ├── FSM.vhd
+│   │   ├── Gest_Freq.vhd
+│   │   └── address_counter.vhd
+│   │
+│   └── io/
+│       ├── game_edit.vhd
+│       └── Reg_Button.vhd
+│
+├── sim/                      # Simulation files
+│   ├── tb_top_level.vhd
+│   └── waveforms/
+│
+└── scripts/                  # Optional (build, synthesis scripts)
+    └── run_sim.tcl
